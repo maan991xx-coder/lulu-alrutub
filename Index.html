@@ -94,6 +94,24 @@
   .cards-grid.gold-style .price-card.selected{border-color:var(--gold-dark)}
   .cards-grid.gold-style .card-badge{background:var(--gold-dark)}
 
+  /* ── بطاقة المبلغ المخصص ── */
+  .custom-card{grid-column:span 2;background:linear-gradient(145deg,#f5f9ff,#e8f1fb);border:2px dashed rgba(45,120,200,.4)}
+  @media (min-width:600px){.custom-card{grid-column:span 4}}
+  .cards-grid.gold-style .custom-card{background:linear-gradient(145deg,#fdf9ed,#f7eedb);border:2px dashed rgba(201,168,76,.5)}
+  .custom-card .card-badge{display:inline-block;margin-bottom:12px}
+  .custom-input-row{display:flex;gap:8px;align-items:stretch;margin:8px auto 10px;max-width:280px}
+  .custom-input-row input{flex:1;padding:12px 14px;border:2px solid rgba(45,120,200,.25);border-radius:12px;font-family:'Tajawal',sans-serif;font-size:18px;font-weight:800;color:var(--dark-blue);text-align:center;background:white;outline:none;transition:border-color .2s}
+  .custom-input-row input:focus{border-color:var(--light-blue);box-shadow:0 0 0 3px rgba(45,120,200,.15)}
+  .cards-grid.gold-style .custom-input-row input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.15)}
+  .custom-input-row .custom-currency{display:flex;align-items:center;padding:0 14px;background:var(--dark-blue);color:white;border-radius:12px;font-weight:700;font-size:14px}
+  .cards-grid.gold-style .custom-input-row .custom-currency{background:var(--gold-dark)}
+  .custom-confirm-btn{margin-top:6px;background:var(--dark-blue);color:white;border:none;padding:10px 28px;border-radius:50px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+  .custom-confirm-btn:hover{background:var(--mid-blue);transform:translateY(-1px)}
+  .cards-grid.gold-style .custom-confirm-btn{background:var(--gold-dark)}
+  .cards-grid.gold-style .custom-confirm-btn:hover{background:var(--gold)}
+  .custom-card.selected{border-style:solid}
+  .custom-card .check-mark{top:8px;left:8px}
+
   .pay-section{text-align:center;position:relative;z-index:1;padding-top:4px}
   .pay-selection-info{font-size:13px;color:#557;margin-bottom:10px;min-height:20px;transition:all .3s}
   .pay-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#0d2346,#1a3a6e);color:#fff;border:none;padding:14px 36px;border-radius:50px;font-size:17px;font-weight:800;font-family:'Tajawal',sans-serif;cursor:pointer;box-shadow:0 6px 24px rgba(13,35,70,.3);transition:all .3s;border:2px solid transparent;opacity:.5;pointer-events:none;position:relative;overflow:hidden}
@@ -184,6 +202,16 @@
     <div class="price-card" onclick="selectCard(this,'water','سهم الريان',10,'14 كرتون ماء')"><div class="check-mark">✓</div><div class="card-badge">سهم الريان</div><div class="card-price">10</div><div class="card-currency">ريال عُماني</div><div class="card-qty">💧 14 كرتون ماء</div></div>
     <div class="price-card" onclick="selectCard(this,'water','سهم الغيث',15,'21 كرتون ماء')"><div class="check-mark">✓</div><div class="card-badge">سهم الغيث</div><div class="card-price">15</div><div class="card-currency">ريال عُماني</div><div class="card-qty">💧 21 كرتون ماء</div></div>
     <div class="price-card" onclick="selectCard(this,'water','سهم النهر',20,'28 كرتون ماء')"><div class="check-mark">✓</div><div class="card-badge">سهم النهر</div><div class="card-price">20</div><div class="card-currency">ريال عُماني</div><div class="card-qty">💧 28 كرتون ماء</div></div>
+    <div class="price-card custom-card" id="water-custom-card">
+      <div class="check-mark">✓</div>
+      <div class="card-badge">💧 مبلغ مخصص — حدد سهمك</div>
+      <div class="custom-input-row">
+        <input type="number" min="1" step="1" placeholder="أدخل المبلغ" id="water-custom-amount" oninput="updateCustomQty('water')">
+        <span class="custom-currency">ريال</span>
+      </div>
+      <div class="card-qty" id="water-custom-qty">💧 كل ريال = كرتون ماء واحد</div>
+      <button class="custom-confirm-btn" onclick="selectCustomCard('water')">تأكيد المبلغ ✓</button>
+    </div>
   </div>
 
   <div class="pay-section">
@@ -216,6 +244,16 @@
     <div class="price-card" onclick="selectCard(this,'quran','سهم النور',15,'5 مصاحف')"><div class="check-mark">✓</div><div class="card-badge">سهم النور</div><div class="card-price">15</div><div class="card-currency">ريال عُماني</div><div class="card-qty">📖 5 مصاحف</div></div>
     <div class="price-card" onclick="selectCard(this,'quran','سهم الأجر',30,'10 مصاحف')"><div class="check-mark">✓</div><div class="card-badge">سهم الأجر</div><div class="card-price">30</div><div class="card-currency">ريال عُماني</div><div class="card-qty">📖 10 مصاحف</div></div>
     <div class="price-card" onclick="selectCard(this,'quran','سهم الصدقة الجارية',58,'20 مصحف')"><div class="check-mark">✓</div><div class="card-badge" style="font-size:9.5px">سهم الصدقة الجارية</div><div class="card-price">58</div><div class="card-currency">ريال عُماني</div><div class="card-qty">📖 20 مصحف</div></div>
+    <div class="price-card custom-card" id="quran-custom-card">
+      <div class="check-mark">✓</div>
+      <div class="card-badge">📖 مبلغ مخصص — حدد سهمك</div>
+      <div class="custom-input-row">
+        <input type="number" min="1" step="1" placeholder="أدخل المبلغ" id="quran-custom-amount" oninput="updateCustomQty('quran')">
+        <span class="custom-currency">ريال</span>
+      </div>
+      <div class="card-qty" id="quran-custom-qty">📖 كل ريال = ثلث مصحف (3 ريال = مصحف)</div>
+      <button class="custom-confirm-btn" onclick="selectCustomCard('quran')">تأكيد المبلغ ✓</button>
+    </div>
   </div>
 
   <div class="pay-section">
@@ -301,6 +339,73 @@ function selectCard(card, section, badge, amount, qty) {
   card.classList.add('selected');
   selection = { section, badge, amount, qty };
   document.getElementById(section+'-info').innerHTML = '✅ اخترت <strong>'+badge+'</strong> — '+amount+' ريال | '+qty;
+  document.getElementById(section+'-info').style.color = '#2d5a20';
+  document.getElementById(section+'-pay-btn').classList.add('active');
+}
+
+// ─── المبلغ المخصص ───
+function formatWaterQty(amount) {
+  const n = Math.floor(amount);
+  if (n === 1) return 'كرتون ماء واحد';
+  if (n === 2) return 'كرتونان من الماء';
+  return n + ' كراتين ماء';
+}
+
+function formatQuranQty(amount) {
+  // 1 ريال = ثلث مصحف، فعدد الأثلاث = المبلغ
+  const thirds = Math.floor(amount);
+  const full   = Math.floor(thirds / 3);
+  const rem    = thirds - (full * 3);
+
+  if (full === 0) {
+    if (rem === 1) return 'ثلث مصحف';
+    if (rem === 2) return 'ثلثا مصحف';
+    return '';
+  }
+  if (rem === 0) {
+    if (full === 1) return 'مصحف واحد';
+    if (full === 2) return 'مصحفان';
+    return full + ' مصاحف';
+  }
+  // مع باقي
+  let txt;
+  if (full === 1) txt = 'مصحف';
+  else if (full === 2) txt = 'مصحفان';
+  else txt = full + ' مصاحف';
+  if (rem === 1) txt += ' وثلث';
+  if (rem === 2) txt += ' وثلثان';
+  return txt;
+}
+
+function updateCustomQty(section) {
+  const inp = document.getElementById(section+'-custom-amount');
+  const qtyEl = document.getElementById(section+'-custom-qty');
+  const v = parseFloat(inp.value);
+  const icon = section === 'water' ? '💧' : '📖';
+  if (!v || v < 1) {
+    qtyEl.innerHTML = section === 'water'
+      ? '💧 كل ريال = كرتون ماء واحد'
+      : '📖 كل ريال = ثلث مصحف (3 ريال = مصحف)';
+    return;
+  }
+  const qty = section === 'water' ? formatWaterQty(v) : formatQuranQty(v);
+  qtyEl.innerHTML = icon + ' ما يعادل: <strong>' + qty + '</strong>';
+}
+
+function selectCustomCard(section) {
+  const inp = document.getElementById(section+'-custom-amount');
+  const v = parseFloat(inp.value);
+  if (!v || v < 1) { alert('يرجى إدخال مبلغ صحيح (1 ريال أو أكثر)'); inp.focus(); return; }
+  if (v > 10000)   { alert('المبلغ كبير جداً، يرجى إدخال مبلغ أقل من 10000 ريال'); inp.focus(); return; }
+
+  const qty   = section === 'water' ? formatWaterQty(v) : formatQuranQty(v);
+  const badge = section === 'water' ? 'سهم مخصص (سقيا)' : 'سهم مخصص (مصاحف)';
+  const card  = document.getElementById(section+'-custom-card');
+
+  document.getElementById(section+'-cards').querySelectorAll('.price-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  selection = { section, badge, amount: v, qty };
+  document.getElementById(section+'-info').innerHTML = '✅ اخترت <strong>'+badge+'</strong> — '+v+' ريال | '+qty;
   document.getElementById(section+'-info').style.color = '#2d5a20';
   document.getElementById(section+'-pay-btn').classList.add('active');
 }
