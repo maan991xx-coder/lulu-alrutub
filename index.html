@@ -987,6 +987,7 @@ window.addEventListener('load', () => {
 <script type="module">
 import * as THREE from 'three';
 import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader }   from 'three/addons/loaders/DRACOLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const container = document.getElementById('fridge-3d-container');
@@ -1034,9 +1035,15 @@ if (container) {
   container.addEventListener('pointerdown', () => { controls.autoRotate = false; });
   container.addEventListener('pointerup',   () => { setTimeout(() => controls.autoRotate = true, 3000); });
 
-  // ─── Load GLB ───
+  // ─── Load GLB with DRACO decompression ───
   const gltfLoader = new GLTFLoader();
-  // استخدم رابط مطلق مع cache-buster لتجاوز التخزين المؤقت
+  // إعداد DRACOLoader لفك ضغط المجسم
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+  dracoLoader.setDecoderConfig({ type: 'js' });
+  gltfLoader.setDRACOLoader(dracoLoader);
+
+  // استخدم رابط مطلق مع cache-buster
   const glbUrl = window.location.origin + '/fridge.glb?v=' + Date.now();
   console.log('📦 محاولة تحميل المجسم من:', glbUrl);
 
