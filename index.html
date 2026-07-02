@@ -1036,8 +1036,12 @@ if (container) {
 
   // ─── Load GLB ───
   const gltfLoader = new GLTFLoader();
+  // استخدم رابط مطلق مع cache-buster لتجاوز التخزين المؤقت
+  const glbUrl = window.location.origin + '/fridge.glb?v=' + Date.now();
+  console.log('📦 محاولة تحميل المجسم من:', glbUrl);
+
   gltfLoader.load(
-    'fridge.glb',
+    glbUrl,
     (gltf) => {
       const model = gltf.scene;
       // اجمع كل قطع tripo_part واعرضها كاملة فوراً
@@ -1093,14 +1097,25 @@ if (container) {
       }
     },
     (err) => {
-      console.error('❌ فشل تحميل مجسم الثلاجة:', err);
+      console.error('═══════ خطأ تحميل المجسم ═══════');
+      console.error('❌ الخطأ الكامل:', err);
+      console.error('❌ الرسالة:', err.message || err);
+      console.error('❌ الرابط الذي حاولنا تحميله:', glbUrl);
+      console.error('════════════════════════════════');
+      // اختبر تحميل الملف يدوياً
+      fetch(glbUrl).then(r => {
+        console.log('🔍 اختبار fetch:', r.status, r.statusText);
+        console.log('🔍 Content-Type:', r.headers.get('content-type'));
+        console.log('🔍 Content-Length:', r.headers.get('content-length'));
+      }).catch(e => console.error('🔍 fetch فشل:', e));
+
       loaderEl.innerHTML = `
         <div style="padding:20px;text-align:center;max-width:280px">
           <div style="font-size:36px;margin-bottom:8px">🧊</div>
           <div style="color:#c00;font-size:13px;font-weight:800;margin-bottom:6px">تعذّر تحميل المجسم</div>
           <div style="color:#446;font-size:11px;line-height:1.6">
-            تأكد من رفع ملف <strong>fridge.glb</strong> في جذر الموقع<br>
-            أو تحقق من الاتصال بالإنترنت
+            افتح F12 → Console<br>
+            وأرسل الأخطاء الظاهرة
           </div>
         </div>`;
     }
